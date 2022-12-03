@@ -1,6 +1,6 @@
 locals {
   ec2_ami               = data.aws_ami.ubuntu.id
-  ec2_instance_type     = "t2.small"
+  ec2_instance_type     = "t2.micro"
   alb_security_group_id = data.terraform_remote_state.alb.outputs.alb_security_group_id
 }
 
@@ -40,7 +40,7 @@ resource "aws_instance" "nginx" {
   instance_type               = local.ec2_instance_type
   vpc_security_group_ids      = [module.instance_sg.security_group_id]
   subnet_id                   = local.private_subnets[count.index]
-  associate_public_ip_address = true
+  associate_public_ip_address = false
 
   user_data = <<EOT
 #!/bin/bash

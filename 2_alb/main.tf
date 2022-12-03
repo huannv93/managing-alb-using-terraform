@@ -1,6 +1,6 @@
 locals {
   remote_state_bucket_region    = "us-west-2"
-  remote_state_bucket           = "hands-on-cloud-terraform-remote-state-s3"
+  remote_state_bucket           = "hands-on-cloud-terraform-remote-state-s33"
   infrastructure_state_file     = "managing-alb-using-terraform-infrastructure.tfstate"
 
   prefix          = data.terraform_remote_state.infrastructure.outputs.prefix
