@@ -15,9 +15,9 @@ module "vpc" {
     cidrsubnet(local.vpc_cidr, 8, 3)
   ]
 
-  enable_nat_gateway   = true
-  single_nat_gateway   = true
-  enable_dns_hostnames = true
+  enable_nat_gateway   = false
+  single_nat_gateway   = false
+  enable_dns_hostnames = false
 
 
   tags = merge(
