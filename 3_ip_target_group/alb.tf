@@ -12,8 +12,8 @@ module "web_http_sg" {
   create_sg           = false
   security_group_id   = local.alb_sg
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["http-80-tcp"]
-  egress_rules        = ["http-80-tcp"]
+  ingress_rules       = ["http-80-tcp","https-443-tcp"]
+  egress_rules        = ["http-80-tcp","https-443-tcp"]
 }
 
 # ------- ALB Listener --------
@@ -22,6 +22,20 @@ resource "aws_lb_listener" "web_http" {
   load_balancer_arn = local.alb_arn
   port              = 80
   protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.web.arn
+  }
+}
+
+
+resource "aws_lb_listener" "web_https" {
+  load_balancer_arn = local.alb_arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "arn:aws:acm:us-west-2:405253367546:certificate/f787c5d3-93ef-4de5-b23b-b93b42f99eae"
+
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.web.arn

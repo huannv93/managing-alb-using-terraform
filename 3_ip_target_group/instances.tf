@@ -35,12 +35,12 @@ module "instance_sg" {
 }
 
 resource "aws_instance" "nginx" {
-  count                       = length(local.private_subnets)
+  count                       = length(local.public_subnets)
   ami                         = local.ec2_ami
   instance_type               = local.ec2_instance_type
   vpc_security_group_ids      = [module.instance_sg.security_group_id]
-  subnet_id                   = local.private_subnets[count.index]
-  associate_public_ip_address = false
+  subnet_id                   = local.public_subnets[count.index]
+  associate_public_ip_address = true
 
   user_data = <<EOT
 #!/bin/bash
